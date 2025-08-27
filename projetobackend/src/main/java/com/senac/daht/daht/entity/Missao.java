@@ -8,11 +8,11 @@ import java.util.Date;
 @Table(name = "missao")
 public class Missao {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "missao_id")
     private int id;
     @Column(name = "missao_repeticao")
-    private boolean repeticao;
+    private int repeticao;
 
     @Column(name = "missao_dificuldade")
     private int dificuldade;
@@ -24,4 +24,60 @@ public class Missao {
     private Date datafinalizacao;
     @Column(name = "missao_status")
     private int status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getRepeticao() {
+        return repeticao;
+    }
+
+    public void setRepeticao(int repeticao) {
+        this.repeticao = repeticao;
+    }
+
+    public int getDificuldade() {
+        return dificuldade;
+    }
+
+    public void setDificuldade(int dificuldade) {
+        this.dificuldade = dificuldade;
+    }
+
+    public int getEfeito() {
+        return efeito;
+    }
+
+    public void setEfeito(int efeito) {
+        this.efeito = efeito;
+    }
+
+    public Date getDatainicio() {
+        return datainicio;
+    }
+
+    public void setDatainicio(Date datainicio) {
+        this.datainicio = datainicio;
+    }
+
+    public Date getDatafinalizacao() {
+        return datafinalizacao;
+    }
+
+    public void setDatafinalizacao(Date datafinalizacao) {
+        this.datafinalizacao = datafinalizacao;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }
