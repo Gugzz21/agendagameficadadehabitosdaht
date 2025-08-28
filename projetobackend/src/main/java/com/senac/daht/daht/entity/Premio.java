@@ -3,6 +3,7 @@ package com.senac.daht.daht.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "premio")
 public class Premio {
 
     @Id

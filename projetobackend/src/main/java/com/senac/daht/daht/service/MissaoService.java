@@ -24,10 +24,10 @@ public class MissaoService {
     UsuarioRepository usuarioRepository;
 
     public List<Missao> listarMissoes(int userId, int status) {
-        Optional<Usuario> userOpt = usuarioRepository.findById(userId);
+        Usuario userOpt = usuarioRepository.findById(userId).orElse(null);
 
-        if (userOpt.isPresent()) {
-            Usuario usuario = userOpt.get();
+        if (userOpt!=null) {
+            Usuario usuario = userOpt;
             Personagem personagem = usuario.getPersonagem();
 
             if (personagem != null) {
