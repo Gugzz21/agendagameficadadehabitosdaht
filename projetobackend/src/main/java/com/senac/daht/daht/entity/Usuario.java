@@ -29,6 +29,17 @@ public class Usuario {
     @Column(name = "usuario_status")
     private int status;
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Personagem personagem;
+
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
+    }
+
     public int getId() {
         return id;
     }

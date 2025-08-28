@@ -20,14 +20,11 @@ public class MissaoController {
         this.missaoService = missaoService;
     }
 
-/*    @GetMapping("/listar")
+   @GetMapping("/listar")
     @Operation(summary = "Listar missao", description = "Endpoint para listar todas as missoes")
     public ResponseEntity<List<Missao>> listarMissoes(
-    int id,
-    int status) {
-        return ResponseEntity.ok(missaoService.listarMissoes(id, status));
-
-    }*/
+    @RequestParam int id,
+    @RequestParam int status) {return ResponseEntity.ok(missaoService.listarMissoes(id, status));}
 
 
 

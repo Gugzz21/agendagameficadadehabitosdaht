@@ -11,6 +11,7 @@ public class Missao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "missao_id")
     private int id;
+
     @Column(name = "missao_repeticao")
     private int repeticao;
 
@@ -24,6 +25,18 @@ public class Missao {
     private Date datafinalizacao;
     @Column(name = "missao_status")
     private int status;
+
+    @ManyToOne
+    @JoinColumn(name = "personagem_id", nullable = false)
+    private Personagem personagem;
+
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
+    }
 
     public int getId() {
         return id;

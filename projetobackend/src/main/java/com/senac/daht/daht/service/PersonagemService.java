@@ -15,8 +15,7 @@ public class PersonagemService {
         this.personagemRepository = personagemRepository;
     }
 
-    public Personagem mostrarPersonagem(){
-        Personagem p1 = new Personagem();
-        return this.personagemRepository.findById(p1.getId()).orElse(null);
-    }
+   public Optional<Personagem> listarPersonagem(int userId){
+        return this.personagemRepository.findByUsuarioId(userId);
+   }
 }
