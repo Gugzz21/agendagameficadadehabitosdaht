@@ -23,7 +23,6 @@ public class PremioController {
     public PremioController(PremioService premioService) {
         this.premioService = premioService;
     }
-
     @GetMapping("/listar")
     @Operation(summary = "Listar todos os prêmios")
     public ResponseEntity<List<Premio>> listarPremios() {
