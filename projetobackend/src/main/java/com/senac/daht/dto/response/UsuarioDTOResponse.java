@@ -1,12 +1,21 @@
-package com.senac.daht.dto.request;
-import java.util.*;
-public class UsuarioDTORequest {
+package com.senac.daht.dto.response;
+import java.util.Date;
+public class UsuarioDTOResponse {
+    private int id;
     private String nome;
     private String email;
     private String telefone;
     private Date dataNascimento;
     private String senha;
     private int status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;

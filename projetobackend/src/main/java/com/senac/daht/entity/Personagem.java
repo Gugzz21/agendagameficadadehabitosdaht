@@ -1,33 +1,73 @@
 package com.senac.daht.entity;
 
+import com.senac.daht.entity.Missao;
+import com.senac.daht.entity.RegistroOuro;
+import com.senac.daht.entity.RegistroXp;
+import com.senac.daht.entity.Usuario;
 import jakarta.persistence.*;
-
 import java.util.Set;
 
 @Entity
 @Table(name = "personagem")
 public class Personagem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personagem_id")
     private int id;
 
     @Column(name = "personagem_vida")
-    private double vida;
+    private Double vida;
 
     @Column(name = "personagem_ouro")
-    private double ouro;
+    private Double ouro;
 
     @Column(name = "personagem_xp")
-    private double xp;
+    private int xp;
 
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
     private Set<Missao> missoes;
+
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
+    private Set<RegistroOuro> registroouros;
+
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
+    private Set<RegistroXp> registroxps;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Double getVida() {
+        return vida;
+    }
+
+    public void setVida(Double vida) {
+        this.vida = vida;
+    }
+
+    public Double getOuro() {
+        return ouro;
+    }
+
+    public void setOuro(Double ouro) {
+        this.ouro = ouro;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -45,35 +85,19 @@ public class Personagem {
         this.missoes = missoes;
     }
 
-    public int getId() {
-        return id;
+    public Set<RegistroOuro> getRegistroouros() {
+        return registroouros;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRegistroouros(Set<RegistroOuro> registroouros) {
+        this.registroouros = registroouros;
     }
 
-    public double getVida() {
-        return vida;
+    public Set<RegistroXp> getRegistroxps() {
+        return registroxps;
     }
 
-    public void setVida(double vida) {
-        this.vida = vida;
-    }
-
-    public double getOuro() {
-        return ouro;
-    }
-
-    public void setOuro(double ouro) {
-        this.ouro = ouro;
-    }
-
-    public double getXp() {
-        return xp;
-    }
-
-    public void setXp(double xp) {
-        this.xp = xp;
+    public void setRegistroxps(Set<RegistroXp> registroxps) {
+        this.registroxps = registroxps;
     }
 }
