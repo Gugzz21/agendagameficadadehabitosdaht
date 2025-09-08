@@ -2,8 +2,6 @@ package com.senac.daht.controller;
 
 import com.senac.daht.dto.request.UsuarioDTORequest;
 import com.senac.daht.dto.response.UsuarioDTOResponse;
-import com.senac.daht.dto.response.UsuarioDTOUpdateResponse;
-import com.senac.daht.entity.Usuario;
 import com.senac.daht.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,62 +13,46 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuario")
-@Tag(name = "usuario", description = "API para o gerenciamento de usuários")
+@RequestMapping("api/usuario")
+@Tag(name = "Usuário", description = "API para o gerenciamento de usuários")
 public class UsuarioController {
-    private UsuarioService usuarioService;
+
+    private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
     @GetMapping("/listar")
-    @Operation(summary = "Listar todos os usuários")
+    @Operation(summary = "Listar usuários", description = "Endpoint para listar todos os usuários")
     public ResponseEntity<List<UsuarioDTOResponse>> listarUsuarios() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
     @GetMapping("/listarPorId/{id}")
-    @Operation(summary = "Listar usuário por ID")
+    @Operation(summary = "Listar usuário por ID", description = "Endpoint para buscar um usuário pelo seu ID")
     public ResponseEntity<UsuarioDTOResponse> listarPorId(@PathVariable("id") Integer id) {
-        UsuarioDTOResponse usuario = usuarioService.listarPorId(id);
-        if (usuario == null) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(usuario);
-        }
+        return ResponseEntity.ok(usuarioService.listarPorId(id));
     }
 
     @PostMapping("/criar")
-    @Operation(summary = "Criar novo usuário")
-    public ResponseEntity<UsuarioDTOResponse> criarUsuario(@Valid @RequestBody UsuarioDTORequest usuario) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.criarUsuario(usuario));
+    @Operation(summary = "Criar novo usuário", description = "Endpoint para criar um novo registro de usuário")
+    public ResponseEntity<UsuarioDTOResponse> criarUsuario(@Valid @RequestBody UsuarioDTORequest usuarioDTORequest) {
+        UsuarioDTOResponse novoUsuario = usuarioService.criarUsuario(usuarioDTORequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
 
     @PutMapping("/atualizar/{id}")
-    @Operation(summary = "Atualizar todos os dados do usuário")
-    public ResponseEntity<UsuarioDTOResponse> atualizarUsuario(@PathVariable("id") Integer id, @RequestBody UsuarioDTORequest usuarioDTORequest) {
-        UsuarioDTOResponse response = usuarioService.atualizarUsuario(id, usuarioDTORequest);
-        if (response != null) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PatchMapping("/atualizarStatus/{id}")
-    @Operation(summary = "Atualizar campo status do usuário")
-    public ResponseEntity<UsuarioDTOUpdateResponse> atualizarStatusUsuario(@PathVariable("id") Integer id, @RequestBody UsuarioDTORequest usuarioDTOUpdateRequest) {
-        UsuarioDTOUpdateResponse response = usuarioService.atualizarStatusUsuario(id, usuarioDTOUpdateRequest);
-        if (response != null) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @Operation(summary = "Atualizar usuário", description = "Endpoint para atualizar todos os dados de um usuário")
+    public ResponseEntity<UsuarioDTOResponse> atualizarUsuario(
+            @PathVariable("id") Integer id,
+            @Valid @RequestBody UsuarioDTORequest usuarioDTORequest) {
+        UsuarioDTOResponse usuarioAtualizado = usuarioService.atualizarUsuario(id, usuarioDTORequest);
+        return ResponseEntity.ok(usuarioAtualizado);
     }
 
     @DeleteMapping("/deletar/{id}")
-    @Operation(summary = "Deletar usuário por ID")
+    @Operation(summary = "Deletar usuário", description = "Endpoint para deletar um usuário pelo seu ID")
     public ResponseEntity<Void> deletarUsuario(@PathVariable("id") Integer id) {
         usuarioService.deletarUsuario(id);
         return ResponseEntity.noContent().build();

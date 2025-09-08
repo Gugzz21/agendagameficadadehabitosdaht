@@ -1,24 +1,24 @@
 package com.senac.daht.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class PremioDTORequest {
-
-    private Double preco;
-
-
+    @NotNull
+    private double preco;
+    @NotBlank
     private String nome;
 
-    public Double getPreco() {
+    // Getters e Setters
+    public double getPreco() {
         return preco;
     }
-
-    public void setPreco(Double preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
-
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }

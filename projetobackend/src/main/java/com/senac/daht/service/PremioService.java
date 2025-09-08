@@ -4,26 +4,35 @@ import com.senac.daht.dto.request.PremioDTORequest;
 import com.senac.daht.dto.response.PremioDTOResponse;
 import com.senac.daht.entity.Premio;
 import com.senac.daht.repository.PremioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PremioService {
-
-    private PremioRepository premioRepository;
+    private final PremioRepository premioRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
-
-    public PremioService(PremioRepository premioRepository){
+    public PremioService(PremioRepository premioRepository, ModelMapper modelMapper) {
         this.premioRepository = premioRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public List<Premio> listarPremios(){
-        return this.premioRepository.findAll();
+    public List<PremioDTOResponse> listarPremios() {
+        return premioRepository.findAll().stream()
+                .map(premio -> modelMapper.map(premio, PremioDTOResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public PremioDTOResponse listarPorId(Integer id) {
+        Premio premio = premioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Prêmio com ID " + id + " não encontrado."));
+        return modelMapper.map(premio, PremioDTOResponse.class);
     }
 
     public PremioDTOResponse criarPremio(PremioDTORequest premioDTORequest) {
@@ -33,13 +42,12 @@ public class PremioService {
     }
 
     public PremioDTOResponse atualizarPremio(Integer id, PremioDTORequest premioDTORequest) {
-        Premio premio = premioRepository.findById(id).orElse(null);
-        if (premio != null) {
-            modelMapper.map(premioDTORequest, premio);
-            Premio updatedPremio = premioRepository.save(premio);
-            return modelMapper.map(updatedPremio, PremioDTOResponse.class);
-        }
-        return null;
+        Premio premio = premioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Prêmio com ID " + id + " não encontrado."));
+
+        modelMapper.map(premioDTORequest, premio);
+        Premio updatedPremio = premioRepository.save(premio);
+        return modelMapper.map(updatedPremio, PremioDTOResponse.class);
     }
 
     public void deletarPremio(Integer id) {

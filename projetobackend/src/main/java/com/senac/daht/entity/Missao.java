@@ -2,8 +2,6 @@ package com.senac.daht.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "missao")
 public class Missao {
@@ -12,31 +10,30 @@ public class Missao {
     @Column(name = "missao_id")
     private int id;
 
+    @Column(name = "missao_descricao")
+    private String descricao;
+
     @Column(name = "missao_repeticao")
     private int repeticao;
 
     @Column(name = "missao_dificuldade")
     private int dificuldade;
+
     @Column(name = "missao_efeito")
     private int efeito;
-    @Column(name = "missao_datainicio")
-    private Date datainicio;
-    @Column(name = "missao_datafinalizacao")
-    private Date datafinalizacao;
+
+    @Column(name = "missao_data_finalizacao")
+    private String dataFinalizacao;
+
+    @Column(name = "missao_data_inicio")
+    private String dataInicio;
+
     @Column(name = "missao_status")
     private int status;
 
     @ManyToOne
-    @JoinColumn(name = "personagem_id", nullable = false)
+    @JoinColumn(name = "personagem_id", referencedColumnName = "personagem_id")
     private Personagem personagem;
-
-    public Personagem getPersonagem() {
-        return personagem;
-    }
-
-    public void setPersonagem(Personagem personagem) {
-        this.personagem = personagem;
-    }
 
     public int getId() {
         return id;
@@ -44,6 +41,14 @@ public class Missao {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public int getRepeticao() {
@@ -70,20 +75,20 @@ public class Missao {
         this.efeito = efeito;
     }
 
-    public Date getDatainicio() {
-        return datainicio;
+    public String getDataFinalizacao() {
+        return dataFinalizacao;
     }
 
-    public void setDatainicio(Date datainicio) {
-        this.datainicio = datainicio;
+    public void setDataFinalizacao(String dataFinalizacao) {
+        this.dataFinalizacao = dataFinalizacao;
     }
 
-    public Date getDatafinalizacao() {
-        return datafinalizacao;
+    public String getDataInicio() {
+        return dataInicio;
     }
 
-    public void setDatafinalizacao(Date datafinalizacao) {
-        this.datafinalizacao = datafinalizacao;
+    public void setDataInicio(String dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
     public int getStatus() {
@@ -92,5 +97,13 @@ public class Missao {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
     }
 }

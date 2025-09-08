@@ -1,11 +1,7 @@
 package com.senac.daht.entity;
 
-import com.senac.daht.entity.Missao;
-import com.senac.daht.entity.RegistroOuro;
-import com.senac.daht.entity.RegistroXp;
-import com.senac.daht.entity.Usuario;
 import jakarta.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "personagem")
@@ -16,26 +12,32 @@ public class Personagem {
     private int id;
 
     @Column(name = "personagem_vida")
-    private Double vida;
+    private double vida;
 
     @Column(name = "personagem_ouro")
-    private Double ouro;
+    private double ouro;
 
     @Column(name = "personagem_xp")
     private int xp;
+
+    @Column(name = "registrouro_id")
+    private int registrouroId;
+
+    @Column(name = "registroxp_id")
+    private int registroxpId;
 
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
-    private Set<Missao> missoes;
+    private List<Missao> missoes;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
-    private Set<RegistroOuro> registroouros;
+    private List<RegistroOuro> registroOuros;
 
     @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
-    private Set<RegistroXp> registroxps;
+    private List<RegistroXp> registroXps;
 
     public int getId() {
         return id;
@@ -45,19 +47,19 @@ public class Personagem {
         this.id = id;
     }
 
-    public Double getVida() {
+    public double getVida() {
         return vida;
     }
 
-    public void setVida(Double vida) {
+    public void setVida(double vida) {
         this.vida = vida;
     }
 
-    public Double getOuro() {
+    public double getOuro() {
         return ouro;
     }
 
-    public void setOuro(Double ouro) {
+    public void setOuro(double ouro) {
         this.ouro = ouro;
     }
 
@@ -69,6 +71,22 @@ public class Personagem {
         this.xp = xp;
     }
 
+    public int getRegistrouroId() {
+        return registrouroId;
+    }
+
+    public void setRegistrouroId(int registrouroId) {
+        this.registrouroId = registrouroId;
+    }
+
+    public int getRegistroxpId() {
+        return registroxpId;
+    }
+
+    public void setRegistroxpId(int registroxpId) {
+        this.registroxpId = registroxpId;
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
@@ -77,27 +95,27 @@ public class Personagem {
         this.usuario = usuario;
     }
 
-    public Set<Missao> getMissoes() {
+    public List<Missao> getMissoes() {
         return missoes;
     }
 
-    public void setMissoes(Set<Missao> missoes) {
+    public void setMissoes(List<Missao> missoes) {
         this.missoes = missoes;
     }
 
-    public Set<RegistroOuro> getRegistroouros() {
-        return registroouros;
+    public List<RegistroOuro> getRegistroOuros() {
+        return registroOuros;
     }
 
-    public void setRegistroouros(Set<RegistroOuro> registroouros) {
-        this.registroouros = registroouros;
+    public void setRegistroOuros(List<RegistroOuro> registroOuros) {
+        this.registroOuros = registroOuros;
     }
 
-    public Set<RegistroXp> getRegistroxps() {
-        return registroxps;
+    public List<RegistroXp> getRegistroXps() {
+        return registroXps;
     }
 
-    public void setRegistroxps(Set<RegistroXp> registroxps) {
-        this.registroxps = registroxps;
+    public void setRegistroXps(List<RegistroXp> registroXps) {
+        this.registroXps = registroXps;
     }
 }

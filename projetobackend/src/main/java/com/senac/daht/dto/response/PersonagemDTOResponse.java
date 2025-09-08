@@ -1,10 +1,12 @@
 package com.senac.daht.dto.response;
 
+
 public class PersonagemDTOResponse {
     private int id;
-    private Double vida;
-    private Double ouro;
+    private double vida;
+    private double ouro;
     private int xp;
+    private String nomeUsuario;
 
     public int getId() {
         return id;
@@ -18,7 +20,7 @@ public class PersonagemDTOResponse {
         return vida;
     }
 
-    public void setVida(Double vida) {
+    public void setVida(double vida) {
         this.vida = vida;
     }
 
@@ -26,15 +28,23 @@ public class PersonagemDTOResponse {
         return ouro;
     }
 
-    public void setOuro(Double ouro) {
+    public void setOuro(double ouro) {
         this.ouro = ouro;
     }
 
-    public double getXp() {
+    public int getXp() {
         return xp;
     }
 
     public void setXp(int xp) {
         this.xp = xp;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 }

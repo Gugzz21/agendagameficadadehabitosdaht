@@ -2,8 +2,6 @@ package com.senac.daht.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -21,8 +19,8 @@ public class Usuario {
     @Column(name = "usuario_telefone")
     private String telefone;
 
-    @Column(name = "usuario_datanascimento")
-    private Date datanascimento;
+    @Column(name = "usuario_data_nascimento")
+    private String dataNascimento;
 
     @Column(name = "usuario_senha")
     private String senha;
@@ -32,25 +30,6 @@ public class Usuario {
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Personagem personagem;
-
-    public Usuario() {}
-
-    public Usuario(String nome, String email, String telefone, Date datanascimento, String senha, Integer status) {
-        this.nome = nome;
-        this.email = email;
-        this.telefone = telefone;
-        this.datanascimento = datanascimento;
-        this.senha = senha;
-        this.status = status;
-    }
-
-    public Personagem getPersonagem() {
-        return personagem;
-    }
-
-    public void setPersonagem(Personagem personagem) {
-        this.personagem = personagem;
-    }
 
     public int getId() {
         return id;
@@ -84,12 +63,12 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public Date getDatanascimento() {
-        return datanascimento;
+    public String getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setDatanascimento(Date datanascimento) {
-        this.datanascimento = datanascimento;
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public String getSenha() {
@@ -106,5 +85,13 @@ public class Usuario {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Personagem getPersonagem() {
+        return personagem;
+    }
+
+    public void setPersonagem(Personagem personagem) {
+        this.personagem = personagem;
     }
 }
