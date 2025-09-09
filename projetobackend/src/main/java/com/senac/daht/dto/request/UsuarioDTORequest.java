@@ -5,16 +5,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+
 public class UsuarioDTORequest {
-    @NotBlank
+
     private String nome;
-    @NotBlank
-    @Email
+
     private String email;
     private String telefone;
-    private String dataNascimento;
-    @NotBlank
-    @Size(min = 6)
+    private LocalDate dataNascimento;
+
     private String senha;
     @NotNull
     private int status;
@@ -38,10 +38,10 @@ public class UsuarioDTORequest {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    public String getDataNascimento() {
+    public LocalDate  getDataNascimento() {
         return dataNascimento;
     }
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate  dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
     public String getSenha() {

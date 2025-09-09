@@ -1,90 +1,60 @@
 package com.senac.daht.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "personagem")
 public class Personagem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personagem_id")
-    private int id;
+    private Integer id;
 
     @Column(name = "personagem_vida")
-    private double vida;
+    private Double vida;
 
     @Column(name = "personagem_ouro")
-    private double ouro;
+    private Double ouro;
 
     @Column(name = "personagem_xp")
-    private int xp;
-
-    @Column(name = "registrouro_id")
-    private int registrouroId;
-
-    @Column(name = "registroxp_id")
-    private int registroxpId;
-
-    @OneToOne
+    private Double xp;
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
-    private List<Missao> missoes;
+    // Getters e Setters
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
-    private List<RegistroOuro> registroOuros;
-
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
-    private List<RegistroXp> registroXps;
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public double getVida() {
+    public Double getVida() {
         return vida;
     }
 
-    public void setVida(double vida) {
+    public void setVida(Double vida) {
         this.vida = vida;
     }
 
-    public double getOuro() {
+    public Double getOuro() {
         return ouro;
     }
 
-    public void setOuro(double ouro) {
+    public void setOuro(Double ouro) {
         this.ouro = ouro;
     }
 
-    public int getXp() {
+    public Double getXp() {
         return xp;
     }
 
-    public void setXp(int xp) {
+    public void setXp(Double xp) {
         this.xp = xp;
-    }
-
-    public int getRegistrouroId() {
-        return registrouroId;
-    }
-
-    public void setRegistrouroId(int registrouroId) {
-        this.registrouroId = registrouroId;
-    }
-
-    public int getRegistroxpId() {
-        return registroxpId;
-    }
-
-    public void setRegistroxpId(int registroxpId) {
-        this.registroxpId = registroxpId;
     }
 
     public Usuario getUsuario() {
@@ -93,29 +63,5 @@ public class Personagem {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public List<Missao> getMissoes() {
-        return missoes;
-    }
-
-    public void setMissoes(List<Missao> missoes) {
-        this.missoes = missoes;
-    }
-
-    public List<RegistroOuro> getRegistroOuros() {
-        return registroOuros;
-    }
-
-    public void setRegistroOuros(List<RegistroOuro> registroOuros) {
-        this.registroOuros = registroOuros;
-    }
-
-    public List<RegistroXp> getRegistroXps() {
-        return registroXps;
-    }
-
-    public void setRegistroXps(List<RegistroXp> registroXps) {
-        this.registroXps = registroXps;
     }
 }

@@ -37,7 +37,7 @@ public class UsuarioController {
 
     @PostMapping("/criar")
     @Operation(summary = "Criar novo usuário", description = "Endpoint para criar um novo registro de usuário")
-    public ResponseEntity<UsuarioDTOResponse> criarUsuario(@Valid @RequestBody UsuarioDTORequest usuarioDTORequest) {
+    public ResponseEntity<UsuarioDTOResponse> criarUsuario(@RequestBody UsuarioDTORequest usuarioDTORequest) {
         UsuarioDTOResponse novoUsuario = usuarioService.criarUsuario(usuarioDTORequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
@@ -46,7 +46,7 @@ public class UsuarioController {
     @Operation(summary = "Atualizar usuário", description = "Endpoint para atualizar todos os dados de um usuário")
     public ResponseEntity<UsuarioDTOResponse> atualizarUsuario(
             @PathVariable("id") Integer id,
-            @Valid @RequestBody UsuarioDTORequest usuarioDTORequest) {
+            @RequestBody UsuarioDTORequest usuarioDTORequest) {
         UsuarioDTOResponse usuarioAtualizado = usuarioService.atualizarUsuario(id, usuarioDTORequest);
         return ResponseEntity.ok(usuarioAtualizado);
     }

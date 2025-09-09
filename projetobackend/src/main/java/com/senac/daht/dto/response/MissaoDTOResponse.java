@@ -1,13 +1,15 @@
 package com.senac.daht.dto.response;
 
+import java.time.LocalDate;
+
 public class MissaoDTOResponse {
     private int id;
     private String descricao;
     private int repeticao;
     private int dificuldade;
     private int efeito;
-    private String dataFinalizacao;
-    private String dataInicio;
+    private LocalDate dataFinalizacao;
+    private LocalDate  dataInicio;
     private int status;
     private String nomePersonagem;
 
@@ -42,16 +44,16 @@ public class MissaoDTOResponse {
     public void setEfeito(int efeito) {
         this.efeito = efeito;
     }
-    public String getDataFinalizacao() {
+    public LocalDate  getDataFinalizacao() {
         return dataFinalizacao;
     }
-    public void setDataFinalizacao(String dataFinalizacao) {
+    public void setDataFinalizacao(LocalDate  dataFinalizacao) {
         this.dataFinalizacao = dataFinalizacao;
     }
-    public String getDataInicio() {
+    public LocalDate  getDataInicio() {
         return dataInicio;
     }
-    public void setDataInicio(String dataInicio) {
+    public void setDataInicio(LocalDate  dataInicio) {
         this.dataInicio = dataInicio;
     }
     public int getStatus() {

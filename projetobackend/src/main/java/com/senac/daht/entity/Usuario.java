@@ -1,6 +1,9 @@
 package com.senac.daht.entity;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "usuario")
@@ -15,12 +18,11 @@ public class Usuario {
 
     @Column(name = "usuario_email")
     private String email;
-
     @Column(name = "usuario_telefone")
     private String telefone;
 
-    @Column(name = "usuario_data_nascimento")
-    private String dataNascimento;
+    @Column(name = "usuario_datanascimento")
+    private LocalDate dataNascimento;
 
     @Column(name = "usuario_senha")
     private String senha;
@@ -28,7 +30,7 @@ public class Usuario {
     @Column(name = "usuario_status")
     private int status;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Personagem personagem;
 
     public int getId() {
@@ -63,11 +65,11 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

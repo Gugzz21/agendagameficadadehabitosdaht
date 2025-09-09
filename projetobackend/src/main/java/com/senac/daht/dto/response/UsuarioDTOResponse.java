@@ -1,11 +1,13 @@
 package com.senac.daht.dto.response;
 
+import java.time.LocalDate;
+
 public class UsuarioDTOResponse {
     private int id;
     private String nome;
     private String email;
     private String telefone;
-    private String dataNascimento;
+    private LocalDate  dataNascimento;
     private int status;
 
     // Getters e Setters
@@ -33,10 +35,10 @@ public class UsuarioDTOResponse {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    public String getDataNascimento() {
+    public LocalDate  getDataNascimento() {
         return dataNascimento;
     }
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
     public int getStatus() {

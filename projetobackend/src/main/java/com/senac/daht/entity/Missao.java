@@ -2,6 +2,8 @@ package com.senac.daht.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "missao")
 public class Missao {
@@ -23,10 +25,10 @@ public class Missao {
     private int efeito;
 
     @Column(name = "missao_data_finalizacao")
-    private String dataFinalizacao;
+    private LocalDate dataFinalizacao;
 
     @Column(name = "missao_data_inicio")
-    private String dataInicio;
+    private LocalDate  dataInicio;
 
     @Column(name = "missao_status")
     private int status;
@@ -75,19 +77,19 @@ public class Missao {
         this.efeito = efeito;
     }
 
-    public String getDataFinalizacao() {
+    public LocalDate  getDataFinalizacao() {
         return dataFinalizacao;
     }
 
-    public void setDataFinalizacao(String dataFinalizacao) {
+    public void setDataFinalizacao(LocalDate  dataFinalizacao) {
         this.dataFinalizacao = dataFinalizacao;
     }
 
-    public String getDataInicio() {
+    public LocalDate  getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(String dataInicio) {
+    public void setDataInicio(LocalDate  dataInicio) {
         this.dataInicio = dataInicio;
     }
 

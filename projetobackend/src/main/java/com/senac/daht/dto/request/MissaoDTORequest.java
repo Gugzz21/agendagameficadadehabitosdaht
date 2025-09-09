@@ -3,6 +3,8 @@ package com.senac.daht.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
+
 public class MissaoDTORequest {
     @NotBlank
     private String descricao;
@@ -12,8 +14,8 @@ public class MissaoDTORequest {
     private int dificuldade;
     @NotNull
     private int efeito;
-    private String dataFinalizacao;
-    private String dataInicio;
+    private LocalDate dataFinalizacao;
+    private LocalDate  dataInicio;
     @NotNull
     private int status;
     @NotNull
@@ -44,16 +46,16 @@ public class MissaoDTORequest {
     public void setEfeito(int efeito) {
         this.efeito = efeito;
     }
-    public String getDataFinalizacao() {
+    public LocalDate  getDataFinalizacao() {
         return dataFinalizacao;
     }
-    public void setDataFinalizacao(String dataFinalizacao) {
+    public void setDataFinalizacao(LocalDate  dataFinalizacao) {
         this.dataFinalizacao = dataFinalizacao;
     }
-    public String getDataInicio() {
+    public LocalDate  getDataInicio() {
         return dataInicio;
     }
-    public void setDataInicio(String dataInicio) {
+    public void setDataInicio(LocalDate  dataInicio) {
         this.dataInicio = dataInicio;
     }
     public int getStatus() {
