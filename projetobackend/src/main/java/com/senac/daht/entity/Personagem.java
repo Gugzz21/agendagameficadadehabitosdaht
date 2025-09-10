@@ -19,9 +19,10 @@ public class Personagem {
 
     @Column(name = "personagem_xp")
     private Double xp;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
     private Usuario usuario;
+
 
     // Getters e Setters
 

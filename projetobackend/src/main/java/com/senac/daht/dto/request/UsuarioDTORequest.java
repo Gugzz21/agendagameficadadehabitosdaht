@@ -14,9 +14,7 @@ public class UsuarioDTORequest {
     private String email;
     private String telefone;
     private LocalDate dataNascimento;
-
     private String senha;
-    @NotNull
     private int status;
 
     // Getters e Setters

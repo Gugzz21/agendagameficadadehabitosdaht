@@ -4,6 +4,7 @@ import com.senac.daht.dto.request.UsuarioDTORequest;
 import com.senac.daht.dto.response.UsuarioDTOResponse;
 import com.senac.daht.entity.Personagem;
 import com.senac.daht.entity.Usuario;
+import com.senac.daht.repository.PersonagemRepository;
 import com.senac.daht.repository.UsuarioRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,13 +18,15 @@ import java.util.stream.Collectors;
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final PersonagemRepository personagemRepository;
     private final ModelMapper modelMapper;
     // O PasswordEncoder foi removido daqui
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper) { // E daqui do construtor
+    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper, PersonagemRepository personagemRepository) { // E daqui do construtor
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
+        this.personagemRepository = personagemRepository;
     }
 
     public List<UsuarioDTOResponse> listarUsuarios() {
@@ -44,20 +47,18 @@ public class UsuarioService {
         }
 
         Usuario usuario = modelMapper.map(usuarioDTORequest, Usuario.class);
-
         usuario.setSenha(usuarioDTORequest.getSenha());
-
         usuario.setStatus(1);
+
+        Usuario savedUsuario = usuarioRepository.save(usuario);
 
         Personagem personagem = new Personagem();
         personagem.setVida(100.0);
         personagem.setOuro(0.0);
         personagem.setXp(0.0);
+        personagem.setUsuario(savedUsuario);
 
-        personagem.setUsuario(usuario);
-        usuario.setPersonagem(personagem);
-
-        Usuario savedUsuario = usuarioRepository.save(usuario);
+        personagemRepository.save(personagem);
 
         return modelMapper.map(savedUsuario, UsuarioDTOResponse.class);
     }
@@ -68,7 +69,6 @@ public class UsuarioService {
 
         modelMapper.map(usuarioDTORequest, usuario);
 
-        // Se a senha for atualizada, ela também será salva em texto puro
         if(usuarioDTORequest.getSenha() != null && !usuarioDTORequest.getSenha().isEmpty()) {
             usuario.setSenha(usuarioDTORequest.getSenha());
         }
