@@ -35,13 +35,13 @@ public class PersonagemController {
         PersonagemDTOResponse personagem = personagemService.listarPorId(id);
         return ResponseEntity.ok(personagem);
     }
-//
-//    @PostMapping("/criar")
-//    @Operation(summary = "Criar novo personagem", description = "Endpoint para criar um novo registro de personagem")
-//    public ResponseEntity<PersonagemDTOResponse> criarPersonagem(@Valid @RequestBody PersonagemDTORequest personagemDTORequest) {
-//        PersonagemDTOResponse novoPersonagem = personagemService.criarPersonagem(personagemDTORequest);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(novoPersonagem);
-//    }
+
+    @PostMapping("/criar")
+    @Operation(summary = "Criar novo personagem", description = "Endpoint para criar um novo registro de personagem")
+    public ResponseEntity<PersonagemDTOResponse> criarPersonagem(@Valid @RequestBody PersonagemDTORequest personagemDTORequest) {
+       PersonagemDTOResponse novoPersonagem = personagemService.criarPersonagem(personagemDTORequest);
+       return ResponseEntity.status(HttpStatus.CREATED).body(novoPersonagem);
+    }
 
     @PutMapping("/atualizar/{id}")
     @Operation(summary = "Atualizar personagem", description = "Endpoint para atualizar todos os dados de um personagem")

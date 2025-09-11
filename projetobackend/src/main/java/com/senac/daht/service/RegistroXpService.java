@@ -3,9 +3,7 @@ package com.senac.daht.service;
 import com.senac.daht.dto.request.RegistroXpDTORequest;
 import com.senac.daht.dto.response.RegistroXpDTOResponse;
 import com.senac.daht.entity.RegistroXp;
-import com.senac.daht.entity.Personagem;
 import com.senac.daht.repository.RegistroXpRepository;
-import com.senac.daht.repository.PersonagemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class RegistroXpService {
     private final RegistroXpRepository registroXpRepository;
-    private final PersonagemRepository personagemRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public RegistroXpService(RegistroXpRepository registroXpRepository, PersonagemRepository personagemRepository, ModelMapper modelMapper) {
+    public RegistroXpService(RegistroXpRepository registroXpRepository, ModelMapper modelMapper) {
         this.registroXpRepository = registroXpRepository;
-        this.personagemRepository = personagemRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -41,11 +37,6 @@ public class RegistroXpService {
 
     public RegistroXpDTOResponse criarRegistroXp(RegistroXpDTORequest registroXpDTORequest) {
         RegistroXp registroXp = modelMapper.map(registroXpDTORequest, RegistroXp.class);
-
-        Personagem personagem = personagemRepository.findById(registroXpDTORequest.getPersonagemId())
-                .orElseThrow(() -> new EntityNotFoundException("Personagem com ID " + registroXpDTORequest.getPersonagemId() + " não encontrado."));
-        registroXp.setPersonagem(personagem);
-
         RegistroXp savedRegistroXp = registroXpRepository.save(registroXp);
         return modelMapper.map(savedRegistroXp, RegistroXpDTOResponse.class);
     }
@@ -55,10 +46,6 @@ public class RegistroXpService {
                 .orElseThrow(() -> new EntityNotFoundException("Registro de XP com ID " + id + " não encontrado."));
 
         modelMapper.map(registroXpDTORequest, registroXp);
-
-        Personagem personagem = personagemRepository.findById(registroXpDTORequest.getPersonagemId())
-                .orElseThrow(() -> new EntityNotFoundException("Personagem com ID " + registroXpDTORequest.getPersonagemId() + " não encontrado."));
-        registroXp.setPersonagem(personagem);
 
         RegistroXp updatedRegistroXp = registroXpRepository.save(registroXp);
         return modelMapper.map(updatedRegistroXp, RegistroXpDTOResponse.class);

@@ -3,9 +3,7 @@ package com.senac.daht.service;
 import com.senac.daht.dto.request.RegistroOuroDTORequest;
 import com.senac.daht.dto.response.RegistroOuroDTOResponse;
 import com.senac.daht.entity.RegistroOuro;
-import com.senac.daht.entity.Personagem;
 import com.senac.daht.repository.RegistroOuroRepository;
-import com.senac.daht.repository.PersonagemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class RegistroOuroService {
     private final RegistroOuroRepository registroOuroRepository;
-    private final PersonagemRepository personagemRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public RegistroOuroService(RegistroOuroRepository registroOuroRepository, PersonagemRepository personagemRepository, ModelMapper modelMapper) {
+    public RegistroOuroService(RegistroOuroRepository registroOuroRepository, ModelMapper modelMapper) {
         this.registroOuroRepository = registroOuroRepository;
-        this.personagemRepository = personagemRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -41,11 +37,6 @@ public class RegistroOuroService {
 
     public RegistroOuroDTOResponse criarRegistroOuro(RegistroOuroDTORequest registroOuroDTORequest) {
         RegistroOuro registroOuro = modelMapper.map(registroOuroDTORequest, RegistroOuro.class);
-
-        Personagem personagem = personagemRepository.findById(registroOuroDTORequest.getPersonagemId())
-                .orElseThrow(() -> new EntityNotFoundException("Personagem com ID " + registroOuroDTORequest.getPersonagemId() + " não encontrado."));
-        registroOuro.setPersonagem(personagem);
-
         RegistroOuro savedRegistroOuro = registroOuroRepository.save(registroOuro);
         return modelMapper.map(savedRegistroOuro, RegistroOuroDTOResponse.class);
     }
@@ -55,10 +46,6 @@ public class RegistroOuroService {
                 .orElseThrow(() -> new EntityNotFoundException("Registro de Ouro com ID " + id + " não encontrado."));
 
         modelMapper.map(registroOuroDTORequest, registroOuro);
-
-        Personagem personagem = personagemRepository.findById(registroOuroDTORequest.getPersonagemId())
-                .orElseThrow(() -> new EntityNotFoundException("Personagem com ID " + registroOuroDTORequest.getPersonagemId() + " não encontrado."));
-        registroOuro.setPersonagem(personagem);
 
         RegistroOuro updatedRegistroOuro = registroOuroRepository.save(registroOuro);
         return modelMapper.map(updatedRegistroOuro, RegistroOuroDTOResponse.class);

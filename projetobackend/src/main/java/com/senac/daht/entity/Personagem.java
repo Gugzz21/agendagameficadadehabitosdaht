@@ -1,6 +1,7 @@
 package com.senac.daht.entity;
 
 import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "personagem")
@@ -19,12 +20,18 @@ public class Personagem {
 
     @Column(name = "personagem_xp")
     private Double xp;
+
+    @OneToOne
+    @JoinColumn(name = "registroxp_id", referencedColumnName = "registroxp_id", nullable = false)
+    private RegistroXp registroXp;
+
+    @OneToOne
+    @JoinColumn(name = "registroouro_id", referencedColumnName = "registrouro_id", nullable = false)
+    private RegistroOuro registroOuro;
+
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
     private Usuario usuario;
-
-
-    // Getters e Setters
 
     public Integer getId() {
         return id;
@@ -56,6 +63,22 @@ public class Personagem {
 
     public void setXp(Double xp) {
         this.xp = xp;
+    }
+
+    public RegistroXp getRegistroXp() {
+        return registroXp;
+    }
+
+    public void setRegistroXp(RegistroXp registroXp) {
+        this.registroXp = registroXp;
+    }
+
+    public RegistroOuro getRegistroOuro() {
+        return registroOuro;
+    }
+
+    public void setRegistroOuro(RegistroOuro registroOuro) {
+        this.registroOuro = registroOuro;
     }
 
     public Usuario getUsuario() {

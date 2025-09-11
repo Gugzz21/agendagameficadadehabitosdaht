@@ -3,8 +3,12 @@ package com.senac.daht.service;
 import com.senac.daht.dto.request.UsuarioDTORequest;
 import com.senac.daht.dto.response.UsuarioDTOResponse;
 import com.senac.daht.entity.Personagem;
+import com.senac.daht.entity.RegistroOuro;
+import com.senac.daht.entity.RegistroXp;
 import com.senac.daht.entity.Usuario;
 import com.senac.daht.repository.PersonagemRepository;
+import com.senac.daht.repository.RegistroOuroRepository;
+import com.senac.daht.repository.RegistroXpRepository;
 import com.senac.daht.repository.UsuarioRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,14 +23,17 @@ import java.util.stream.Collectors;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PersonagemRepository personagemRepository;
+    private final RegistroXpRepository registroXpRepository;
+    private final RegistroOuroRepository registroOuroRepository;
     private final ModelMapper modelMapper;
-    // O PasswordEncoder foi removido daqui
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper, PersonagemRepository personagemRepository) { // E daqui do construtor
+    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper, PersonagemRepository personagemRepository, RegistroXpRepository registroXpRepository, RegistroOuroRepository registroOuroRepository) {
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
         this.personagemRepository = personagemRepository;
+        this.registroXpRepository = registroXpRepository;
+        this.registroOuroRepository = registroOuroRepository;
     }
 
     public List<UsuarioDTOResponse> listarUsuarios() {
@@ -52,12 +59,27 @@ public class UsuarioService {
 
         Usuario savedUsuario = usuarioRepository.save(usuario);
 
+        // 1. Cria e salva as entidades RegistroXP e RegistroOuro primeiro
+        RegistroXp registroXp = new RegistroXp();
+        registroXp.setQuantidade(0);
+        RegistroXp savedRegistroXp = registroXpRepository.save(registroXp);
+
+        RegistroOuro registroOuro = new RegistroOuro();
+        registroOuro.setQuantidade(0);
+        RegistroOuro savedRegistroOuro = registroOuroRepository.save(registroOuro);
+
+        // 2. Cria o Personagem e associa aos objetos salvos
         Personagem personagem = new Personagem();
         personagem.setVida(100.0);
         personagem.setOuro(0.0);
         personagem.setXp(0.0);
         personagem.setUsuario(savedUsuario);
 
+        // Associa os registros recém-criados
+        personagem.setRegistroXp(savedRegistroXp);
+        personagem.setRegistroOuro(savedRegistroOuro);
+
+        // 3. Salva o Personagem
         personagemRepository.save(personagem);
 
         return modelMapper.map(savedUsuario, UsuarioDTOResponse.class);

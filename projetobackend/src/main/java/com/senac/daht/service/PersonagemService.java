@@ -38,18 +38,18 @@ public class PersonagemService {
         return modelMapper.map(personagem, PersonagemDTOResponse.class);
     }
 
-//    public PersonagemDTOResponse criarPersonagem(PersonagemDTORequest personagemDTORequest) {
-//        Personagem personagem = modelMapper.map(personagemDTORequest, Personagem.class);
-//
-//        if (personagemDTORequest.getUsuarioId() != null) {
-//            Usuario usuario = usuarioRepository.findById(personagemDTORequest.getUsuarioId())
-//                    .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + personagemDTORequest.getUsuarioId() + " não encontrado."));
-//            personagem.setUsuario(usuario);
-//        }
-//
-//        Personagem savedPersonagem = personagemRepository.save(personagem);
-//        return modelMapper.map(savedPersonagem, PersonagemDTOResponse.class);
-//    }
+    public PersonagemDTOResponse criarPersonagem(PersonagemDTORequest personagemDTORequest) {
+       Personagem personagem = modelMapper.map(personagemDTORequest, Personagem.class);
+
+        if (personagemDTORequest.getUsuarioId() != null) {
+            Usuario usuario = usuarioRepository.findById(personagemDTORequest.getUsuarioId())
+                   .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + personagemDTORequest.getUsuarioId() + " não encontrado."));
+            personagem.setUsuario(usuario);
+        }
+
+        Personagem savedPersonagem = personagemRepository.save(personagem);
+        return modelMapper.map(savedPersonagem, PersonagemDTOResponse.class);
+    }
 
     public PersonagemDTOResponse atualizarPersonagem(Integer id, PersonagemDTORequest personagemDTORequest) {
         Personagem personagem = personagemRepository.findById(id)
