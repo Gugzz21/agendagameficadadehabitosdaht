@@ -3,14 +3,14 @@ package com.senac.daht.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "registrouro")
+@Table(name = "registroouro")
 public class RegistroOuro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "registrouro_id")
+    @Column(name = "registroouro_id")
     private int id;
 
-    @Column(name = "registrouro_quantidade")
+    @Column(name = "registroouro_quantidade")
     private int quantidade;
 
     public int getId() {

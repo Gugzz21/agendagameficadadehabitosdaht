@@ -10,7 +10,7 @@ public class Personagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personagem_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "personagem_vida")
     private Double vida;
@@ -22,22 +22,23 @@ public class Personagem {
     private Double xp;
 
     @OneToOne
-    @JoinColumn(name = "registroxp_id", referencedColumnName = "registroxp_id", nullable = false)
-    private RegistroXp registroXp;
+    @JoinColumn(name = "registroouro_id", referencedColumnName = "registroouro_id", nullable = false)
+    private RegistroOuro registroOuro;
+
 
     @OneToOne
-    @JoinColumn(name = "registroouro_id", referencedColumnName = "registrouro_id", nullable = false)
-    private RegistroOuro registroOuro;
+    @JoinColumn(name = "registroxp_id", referencedColumnName = "registroxp_id", nullable = false)
+    private RegistroXp registroXp;
 
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
@@ -36,17 +37,7 @@ public class UsuarioService {
         this.registroOuroRepository = registroOuroRepository;
     }
 
-    public List<UsuarioDTOResponse> listarUsuarios() {
-        return usuarioRepository.findAll().stream()
-                .map(usuario -> modelMapper.map(usuario, UsuarioDTOResponse.class))
-                .collect(Collectors.toList());
-    }
-
-    public UsuarioDTOResponse listarPorId(Integer id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado."));
-        return modelMapper.map(usuario, UsuarioDTOResponse.class);
-    }
+    // ... (outros métodos)
 
     public UsuarioDTOResponse criarUsuario(UsuarioDTORequest usuarioDTORequest) {
         if (usuarioRepository.findByEmail(usuarioDTORequest.getEmail()).isPresent()) {
@@ -56,10 +47,9 @@ public class UsuarioService {
         Usuario usuario = modelMapper.map(usuarioDTORequest, Usuario.class);
         usuario.setSenha(usuarioDTORequest.getSenha());
         usuario.setStatus(1);
-
         Usuario savedUsuario = usuarioRepository.save(usuario);
 
-        // 1. Cria e salva as entidades RegistroXP e RegistroOuro primeiro
+        // 1. Crie e salve RegistroXp e RegistroOuro para gerar seus IDs
         RegistroXp registroXp = new RegistroXp();
         registroXp.setQuantidade(0);
         RegistroXp savedRegistroXp = registroXpRepository.save(registroXp);
@@ -68,7 +58,7 @@ public class UsuarioService {
         registroOuro.setQuantidade(0);
         RegistroOuro savedRegistroOuro = registroOuroRepository.save(registroOuro);
 
-        // 2. Cria o Personagem e associa aos objetos salvos
+        // 2. Crie o Personagem e associe os objetos salvos
         Personagem personagem = new Personagem();
         personagem.setVida(100.0);
         personagem.setOuro(0.0);
@@ -84,6 +74,20 @@ public class UsuarioService {
 
         return modelMapper.map(savedUsuario, UsuarioDTOResponse.class);
     }
+
+    public List<UsuarioDTOResponse> listarUsuarios() {
+        return usuarioRepository.findAll().stream()
+                .map(usuario -> modelMapper.map(usuario, UsuarioDTOResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    public UsuarioDTOResponse listarPorId(Integer id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado."));
+        return modelMapper.map(usuario, UsuarioDTOResponse.class);
+    }
+
+
 
     public UsuarioDTOResponse atualizarUsuario(Integer id, UsuarioDTORequest usuarioDTORequest) {
         Usuario usuario = usuarioRepository.findById(id)

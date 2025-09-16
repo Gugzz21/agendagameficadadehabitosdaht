@@ -24,10 +24,10 @@ public class Missao {
     @Column(name = "missao_efeito")
     private int efeito;
 
-    @Column(name = "missao_data_finalizacao")
+    @Column(name = "missao_datafinalizacao")
     private LocalDate dataFinalizacao;
 
-    @Column(name = "missao_data_inicio")
+    @Column(name = "missao_datainicio")
     private LocalDate  dataInicio;
 
     @Column(name = "missao_status")

@@ -2,17 +2,17 @@ package com.senac.daht.dto.response;
 
 
 public class PersonagemDTOResponse {
-    private int id;
+    private Long id;
     private double vida;
     private double ouro;
     private int xp;
     private String nomeUsuario;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
