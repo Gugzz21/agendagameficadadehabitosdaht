@@ -1,29 +1,29 @@
-// PersonagemDTORequest.java
+
 package com.senac.daht.dto.request;
 import jakarta.validation.constraints.NotNull;
 public class PersonagemDTORequest {
     @NotNull
-    private double vida;
+    private int vida;
     @NotNull
-    private double ouro;
+    private int ouro;
     @NotNull
     private int xp;
     @NotNull
     private Integer usuarioId;
 
-    public double getVida() {
+    public int getVida() {
         return vida;
     }
 
-    public void setVida(double vida) {
+    public void setVida(int vida) {
         this.vida = vida;
     }
 
-    public double getOuro() {
+    public int getOuro() {
         return ouro;
     }
 
-    public void setOuro(double ouro) {
+    public void setOuro(int ouro) {
         this.ouro = ouro;
     }
 

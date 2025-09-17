@@ -11,10 +11,6 @@ public class TabelaPremio {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "missao_id", referencedColumnName = "missao_id")
-    private Missao missao;
-
-    @ManyToOne
     @JoinColumn(name = "premio_id", referencedColumnName = "premio_id")
     private Premio premio;
 
@@ -24,14 +20,6 @@ public class TabelaPremio {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Missao getMissao() {
-        return missao;
-    }
-
-    public void setMissao(Missao missao) {
-        this.missao = missao;
     }
 
     public Premio getPremio() {

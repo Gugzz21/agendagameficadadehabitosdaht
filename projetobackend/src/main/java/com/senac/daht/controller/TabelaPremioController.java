@@ -42,14 +42,6 @@ public class TabelaPremioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novaTabelaPremio);
     }
 
-    @PutMapping("/atualizar/{id}")
-    @Operation(summary = "Atualizar tabela de prêmio", description = "Endpoint para atualizar todos os dados de uma tabela de prêmio")
-    public ResponseEntity<TabelaPremioDTOResponse> atualizarTabelaPremio(
-            @PathVariable("id") Integer id,
-            @Valid @RequestBody TabelaPremioDTORequest tabelaPremioDTORequest) {
-        TabelaPremioDTOResponse tabelaPremioAtualizada = tabelaPremioService.atualizarTabelaPremio(id, tabelaPremioDTORequest);
-        return ResponseEntity.ok(tabelaPremioAtualizada);
-    }
 
     @DeleteMapping("/deletar/{id}")
     @Operation(summary = "Deletar tabela de prêmio", description = "Endpoint para deletar uma tabela de prêmio pelo seu ID")

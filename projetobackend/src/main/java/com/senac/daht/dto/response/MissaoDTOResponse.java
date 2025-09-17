@@ -13,7 +13,7 @@ public class MissaoDTOResponse {
     private int status;
     private String nomePersonagem;
 
-    // Getters e Setters
+
     public int getId() {
         return id;
     }

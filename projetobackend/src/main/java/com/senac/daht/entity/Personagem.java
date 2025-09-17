@@ -13,13 +13,13 @@ public class Personagem {
     private Long id;
 
     @Column(name = "personagem_vida")
-    private Double vida;
+    private int vida;
 
     @Column(name = "personagem_ouro")
-    private Double ouro;
+    private int ouro;
 
     @Column(name = "personagem_xp")
-    private Double xp;
+    private int xp;
 
     @OneToOne
     @JoinColumn(name = "registroouro_id", referencedColumnName = "registroouro_id", nullable = false)
@@ -34,6 +34,9 @@ public class Personagem {
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
     private Usuario usuario;
 
+
+
+
     public Long getId() {
         return id;
     }
@@ -42,27 +45,27 @@ public class Personagem {
         this.id = id;
     }
 
-    public Double getVida() {
+    public int getVida() {
         return vida;
     }
 
-    public void setVida(Double vida) {
+    public void setVida(int vida) {
         this.vida = vida;
     }
 
-    public Double getOuro() {
+    public int getOuro() {
         return ouro;
     }
 
-    public void setOuro(Double ouro) {
+    public void setOuro(int ouro) {
         this.ouro = ouro;
     }
 
-    public Double getXp() {
+    public int getXp() {
         return xp;
     }
 
-    public void setXp(Double xp) {
+    public void setXp(int xp) {
         this.xp = xp;
     }
 

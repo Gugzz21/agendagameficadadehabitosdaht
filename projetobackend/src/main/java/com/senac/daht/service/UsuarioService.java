@@ -60,9 +60,9 @@ public class UsuarioService {
 
         // 2. Crie o Personagem e associe os objetos salvos
         Personagem personagem = new Personagem();
-        personagem.setVida(100.0);
-        personagem.setOuro(0.0);
-        personagem.setXp(0.0);
+        personagem.setVida((int) 100.0);
+        personagem.setOuro((int) 0.0);
+        personagem.setXp((int) 0.0);
         personagem.setUsuario(savedUsuario);
 
         // Associa os registros recém-criados

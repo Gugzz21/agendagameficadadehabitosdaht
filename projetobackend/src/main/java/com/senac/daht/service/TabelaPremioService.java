@@ -9,7 +9,7 @@ import com.senac.daht.repository.TabelaPremioRepository;
 import com.senac.daht.repository.MissaoRepository;
 import com.senac.daht.repository.PremioRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,64 +19,50 @@ import java.util.stream.Collectors;
 @Service
 public class TabelaPremioService {
     private final TabelaPremioRepository tabelaPremioRepository;
-    private final MissaoRepository missaoRepository;
     private final PremioRepository premioRepository;
-    private final ModelMapper modelMapper;
-
     @Autowired
-    public TabelaPremioService(TabelaPremioRepository tabelaPremioRepository, MissaoRepository missaoRepository, PremioRepository premioRepository, ModelMapper modelMapper) {
+    public TabelaPremioService(TabelaPremioRepository tabelaPremioRepository,  PremioRepository premioRepository) {
         this.tabelaPremioRepository = tabelaPremioRepository;
-        this.missaoRepository = missaoRepository;
+
         this.premioRepository = premioRepository;
-        this.modelMapper = modelMapper;
     }
 
     public List<TabelaPremioDTOResponse> listarTabelasPremios() {
         return tabelaPremioRepository.findAll().stream()
-                .map(tabela -> modelMapper.map(tabela, TabelaPremioDTOResponse.class))
+                .map(this::toResponseDTO) // Converte manualmente para DTO de resposta
                 .collect(Collectors.toList());
     }
 
     public TabelaPremioDTOResponse listarPorId(Integer id) {
         TabelaPremio tabelaPremio = tabelaPremioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Tabela de Prêmio com ID " + id + " não encontrada."));
-        return modelMapper.map(tabelaPremio, TabelaPremioDTOResponse.class);
+        return toResponseDTO(tabelaPremio); // Converte manualmente para DTO de resposta
     }
 
+    @Transactional
     public TabelaPremioDTOResponse criarTabelaPremio(TabelaPremioDTORequest tabelaPremioDTORequest) {
-        TabelaPremio tabelaPremio = modelMapper.map(tabelaPremioDTORequest, TabelaPremio.class);
-
-        Premio premio = premioRepository.findById(tabelaPremioDTORequest.getPremioId())
-                .orElseThrow(() -> new EntityNotFoundException("Prêmio com ID " + tabelaPremioDTORequest.getPremioId() + " não encontrado."));
-        tabelaPremio.setPremio(premio);
-
-        Missao missao = missaoRepository.findById(tabelaPremioDTORequest.getMissaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Missão com ID " + tabelaPremioDTORequest.getMissaoId() + " não encontrada."));
-        tabelaPremio.setMissao(missao);
+        TabelaPremio tabelaPremio = new TabelaPremio();
+        updateTabelaPremioFromDto(tabelaPremio, tabelaPremioDTORequest); // Cria e associa dados
 
         TabelaPremio savedTabelaPremio = tabelaPremioRepository.save(tabelaPremio);
-        return modelMapper.map(savedTabelaPremio, TabelaPremioDTOResponse.class);
+        return toResponseDTO(savedTabelaPremio); // Converte manualmente para DTO de resposta
     }
-
-    public TabelaPremioDTOResponse atualizarTabelaPremio(Integer id, TabelaPremioDTORequest tabelaPremioDTORequest) {
-        TabelaPremio tabelaPremio = tabelaPremioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tabela de Prêmio com ID " + id + " não encontrada."));
-
-        modelMapper.map(tabelaPremioDTORequest, tabelaPremio);
-
-        Premio premio = premioRepository.findById(tabelaPremioDTORequest.getPremioId())
-                .orElseThrow(() -> new EntityNotFoundException("Prêmio com ID " + tabelaPremioDTORequest.getPremioId() + " não encontrado."));
-        tabelaPremio.setPremio(premio);
-
-        Missao missao = missaoRepository.findById(tabelaPremioDTORequest.getMissaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Missão com ID " + tabelaPremioDTORequest.getMissaoId() + " não encontrada."));
-        tabelaPremio.setMissao(missao);
-
-        TabelaPremio updatedTabelaPremio = tabelaPremioRepository.save(tabelaPremio);
-        return modelMapper.map(updatedTabelaPremio, TabelaPremioDTOResponse.class);
-    }
-
+    @Transactional
     public void deletarTabelaPremio(Integer id) {
         tabelaPremioRepository.deleteById(id);
+    }
+    private TabelaPremioDTOResponse toResponseDTO(TabelaPremio tabelaPremio) {
+        TabelaPremioDTOResponse dto = new TabelaPremioDTOResponse();
+        dto.setId(tabelaPremio.getId());
+        if (tabelaPremio.getPremio() != null) {
+            dto.setNomePremio(tabelaPremio.getPremio().getNome());
+        }
+        return dto;
+    }
+
+    private void updateTabelaPremioFromDto(TabelaPremio tabelaPremio, TabelaPremioDTORequest dto) {
+        Premio premio = premioRepository.findById(dto.getPremioId())
+                .orElseThrow(() -> new EntityNotFoundException("Prêmio com ID " + dto.getPremioId() + " não encontrado."));
+        tabelaPremio.setPremio(premio);
     }
 }
