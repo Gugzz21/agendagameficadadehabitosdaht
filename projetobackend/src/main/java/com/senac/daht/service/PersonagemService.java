@@ -32,15 +32,16 @@ public class PersonagemService {
     }
 
     public List<PersonagemDTOResponse> listarPersonagens() {
-        return personagemRepository.findAll().stream()
-                .map(this::toResponseDTO) // Converte manualmente para DTO de resposta
+        // Agora usa o novo método que filtra por status ativo (1)
+        return personagemRepository.findByUsuarioStatus(1).stream()
+                .map(this::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
     public PersonagemDTOResponse listarPorId(Integer id) {
-        Personagem personagem = personagemRepository.findById(id)
+        Personagem personagem = personagemRepository.findById(id) // Remova o Lock do repositório para este método.
                 .orElseThrow(() -> new EntityNotFoundException("Personagem com ID " + id + " não encontrado."));
-        return toResponseDTO(personagem); // Converte manualmente para DTO de resposta
+        return toResponseDTO(personagem);
     }
 
     public PersonagemDTOResponse criarPersonagem(PersonagemDTORequest personagemDTORequest) {
