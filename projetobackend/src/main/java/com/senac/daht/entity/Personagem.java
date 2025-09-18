@@ -1,40 +1,36 @@
+
 package com.senac.daht.entity;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "personagem")
 public class Personagem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personagem_id")
     private Long id;
 
     @Column(name = "personagem_vida")
-    private int vida;
+    private Double vida;
 
     @Column(name = "personagem_ouro")
-    private int ouro;
+    private Double ouro;
 
     @Column(name = "personagem_xp")
-    private int xp;
+    private Double xp;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "registroouro_id", referencedColumnName = "registroouro_id", nullable = false)
     private RegistroOuro registroOuro;
 
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "registroxp_id", referencedColumnName = "registroxp_id", nullable = false)
     private RegistroXp registroXp;
 
     @OneToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id", nullable = false)
     private Usuario usuario;
-
-
 
 
     public Long getId() {
@@ -45,36 +41,28 @@ public class Personagem {
         this.id = id;
     }
 
-    public int getVida() {
+    public Double getVida() {
         return vida;
     }
 
-    public void setVida(int vida) {
+    public void setVida(Double vida) {
         this.vida = vida;
     }
 
-    public int getOuro() {
+    public Double getOuro() {
         return ouro;
     }
 
-    public void setOuro(int ouro) {
+    public void setOuro(Double ouro) {
         this.ouro = ouro;
     }
 
-    public int getXp() {
+    public Double getXp() {
         return xp;
     }
 
-    public void setXp(int xp) {
+    public void setXp(Double xp) {
         this.xp = xp;
-    }
-
-    public RegistroXp getRegistroXp() {
-        return registroXp;
-    }
-
-    public void setRegistroXp(RegistroXp registroXp) {
-        this.registroXp = registroXp;
     }
 
     public RegistroOuro getRegistroOuro() {
@@ -83,6 +71,14 @@ public class Personagem {
 
     public void setRegistroOuro(RegistroOuro registroOuro) {
         this.registroOuro = registroOuro;
+    }
+
+    public RegistroXp getRegistroXp() {
+        return registroXp;
+    }
+
+    public void setRegistroXp(RegistroXp registroXp) {
+        this.registroXp = registroXp;
     }
 
     public Usuario getUsuario() {

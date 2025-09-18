@@ -8,24 +8,24 @@ public class RegistroXp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "registroxp_id")
-    private int id;
+    private Long id;
 
     @Column(name = "registroxp_quantidade")
-    private int quantidade;
+    private Double quantidade;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getQuantidade() {
+    public Double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
     }
 }

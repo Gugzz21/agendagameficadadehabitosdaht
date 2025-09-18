@@ -4,15 +4,15 @@ import jakarta.validation.constraints.NotNull;
 
 public class RegistroXpDTORequest {
     @NotNull
-    private int quantidade;
+    private Double quantidade;
     @NotNull
     private Integer personagemId; // Chave estrangeira
 
     // Getters e Setters
-    public int getQuantidade() {
+    public Double getQuantidade() {
         return quantidade;
     }
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
     }
     public Integer getPersonagemId() {

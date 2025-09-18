@@ -12,7 +12,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usuario_id")
     private Integer id;
-
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Personagem personagem;
     @Column(name = "usuario_nome")
     private String nome;
 
@@ -29,9 +30,6 @@ public class Usuario {
 
     @Column(name = "usuario_status")
     private int status;
-
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Personagem personagem;
 
     public Integer getId() {
         return id;

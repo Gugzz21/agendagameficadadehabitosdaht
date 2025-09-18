@@ -15,10 +15,11 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import java.util.Optional; // Importação necessária
 
 @Service
 public class UsuarioService {
@@ -29,7 +30,9 @@ public class UsuarioService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper, PersonagemRepository personagemRepository, RegistroXpRepository registroXpRepository, RegistroOuroRepository registroOuroRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ModelMapper modelMapper,
+                          PersonagemRepository personagemRepository, RegistroXpRepository registroXpRepository,
+                          RegistroOuroRepository registroOuroRepository) {
         this.usuarioRepository = usuarioRepository;
         this.modelMapper = modelMapper;
         this.personagemRepository = personagemRepository;
@@ -37,8 +40,7 @@ public class UsuarioService {
         this.registroOuroRepository = registroOuroRepository;
     }
 
-    // ... (outros métodos)
-
+    @Transactional
     public UsuarioDTOResponse criarUsuario(UsuarioDTORequest usuarioDTORequest) {
         if (usuarioRepository.findByEmail(usuarioDTORequest.getEmail()).isPresent()) {
             throw new EntityExistsException("Este e-mail já está cadastrado.");
@@ -49,46 +51,42 @@ public class UsuarioService {
         usuario.setStatus(1);
         Usuario savedUsuario = usuarioRepository.save(usuario);
 
-        // 1. Crie e salve RegistroXp e RegistroOuro para gerar seus IDs
         RegistroXp registroXp = new RegistroXp();
-        registroXp.setQuantidade(0);
+        registroXp.setQuantidade(0.0);
         RegistroXp savedRegistroXp = registroXpRepository.save(registroXp);
 
         RegistroOuro registroOuro = new RegistroOuro();
-        registroOuro.setQuantidade(0);
+        registroOuro.setQuantidade(0.0);
         RegistroOuro savedRegistroOuro = registroOuroRepository.save(registroOuro);
 
-        // 2. Crie o Personagem e associe os objetos salvos
         Personagem personagem = new Personagem();
-        personagem.setVida((int) 100.0);
-        personagem.setOuro((int) 0.0);
-        personagem.setXp((int) 0.0);
-        personagem.setUsuario(savedUsuario);
-
-        // Associa os registros recém-criados
+        personagem.setVida(100.0);
+        personagem.setOuro(0.0);
+        personagem.setXp(0.0);
+        personagem.setUsuario(savedUsuario); // Associa o usuário ao personagem
         personagem.setRegistroXp(savedRegistroXp);
         personagem.setRegistroOuro(savedRegistroOuro);
 
-        // 3. Salva o Personagem
         personagemRepository.save(personagem);
 
         return modelMapper.map(savedUsuario, UsuarioDTOResponse.class);
     }
 
+    @Transactional(readOnly = true)
     public List<UsuarioDTOResponse> listarUsuarios() {
         return usuarioRepository.findAll().stream()
                 .map(usuario -> modelMapper.map(usuario, UsuarioDTOResponse.class))
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public UsuarioDTOResponse listarPorId(Integer id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado."));
         return modelMapper.map(usuario, UsuarioDTOResponse.class);
     }
 
-
-
+    @Transactional
     public UsuarioDTOResponse atualizarUsuario(Integer id, UsuarioDTORequest usuarioDTORequest) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado."));
@@ -103,7 +101,14 @@ public class UsuarioService {
         return modelMapper.map(updatedUsuario, UsuarioDTOResponse.class);
     }
 
+    @Transactional
     public void deletarUsuario(Integer id) {
-        usuarioRepository.deleteById(id);
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário com ID " + id + " não encontrado."));
+
+        // Com a configuração de `orphanRemoval = true` na entidade Usuario,
+        // o JPA irá deletar o Personagem e suas entidades dependentes automaticamente
+        // ao remover o usuário.
+        usuarioRepository.delete(usuario);
     }
 }

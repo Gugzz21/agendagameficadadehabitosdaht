@@ -3,35 +3,35 @@ package com.senac.daht.dto.request;
 import jakarta.validation.constraints.NotNull;
 public class PersonagemDTORequest {
     @NotNull
-    private int vida;
+    private Double vida;
     @NotNull
-    private int ouro;
+    private Double ouro;
     @NotNull
-    private int xp;
+    private Double xp;
     @NotNull
     private Integer usuarioId;
 
-    public int getVida() {
+    public Double getVida() {
         return vida;
     }
 
-    public void setVida(int vida) {
+    public void setVida(Double vida) {
         this.vida = vida;
     }
 
-    public int getOuro() {
+    public Double getOuro() {
         return ouro;
     }
 
-    public void setOuro(int ouro) {
+    public void setOuro(Double ouro) {
         this.ouro = ouro;
     }
 
-    public int getXp() {
+    public Double getXp() {
         return xp;
     }
 
-    public void setXp(int xp) {
+    public void setXp(Double xp) {
         this.xp = xp;
     }
 
