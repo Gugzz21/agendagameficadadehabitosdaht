@@ -66,7 +66,7 @@ public class PersonagemService {
     @Transactional(readOnly = true)
     public List<PersonagemDTOResponse> listarPersonagens() {
         // Agora, findAll() usa a consulta JPQL personalizada
-        return personagemRepository.findAll().stream()
+        return personagemRepository.listarTodosPersonagens().stream()
                 .map(personagem -> modelMapper.map(personagem, PersonagemDTOResponse.class))
                 .collect(Collectors.toList());
     }

@@ -1,11 +1,11 @@
 package com.senac.daht.service;
 
+import com.senac.daht.dto.CreateUsuarioDto;
+import com.senac.daht.dto.LoginUsuarioDto;
+import com.senac.daht.dto.RecoveryJwtTokenDto;
 import com.senac.daht.dto.request.UsuarioDTORequest;
 import com.senac.daht.dto.response.UsuarioDTOResponse;
-import com.senac.daht.entity.Personagem;
-import com.senac.daht.entity.RegistroOuro;
-import com.senac.daht.entity.RegistroXp;
-import com.senac.daht.entity.Usuario;
+import com.senac.daht.entity.*;
 import com.senac.daht.repository.PersonagemRepository;
 import com.senac.daht.repository.RegistroOuroRepository;
 import com.senac.daht.repository.RegistroXpRepository;
@@ -14,12 +14,14 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Optional; // Importação necessária
 
 @Service
 public class UsuarioService {
@@ -110,5 +112,52 @@ public class UsuarioService {
         // o JPA irá deletar o Personagem e suas entidades dependentes automaticamente
         // ao remover o usuário.
         usuarioRepository.delete(usuario);
+    }
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenService jwtTokenService;
+
+    @Autowired
+    private UsuarioRepository userRepository;
+
+    @Autowired
+    private com.example.demo.config.SecurityConfig securityConfiguration;
+
+
+    public RecoveryJwtTokenDto authenticateUser(LoginUsuarioDto loginUserDto) {
+        // Cria um objeto de autenticação com o email e a senha do usuário
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(loginUserDto.email(), loginUserDto.password());
+
+        // Autentica o usuário com as credenciais fornecidas
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        // Obtém o objeto UserDetails do usuário autenticado
+        UsuarioDetailsImpl userDetails = (UsuarioDetailsImpl) authentication.getPrincipal();
+
+        // Gera um token JWT para o usuário autenticado
+        return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));
+    }
+
+    // Método responsável por criar um usuário
+    public void createUser(CreateUsuarioDto createUserDto) {
+
+        // Cria um novo usuário com os dados fornecidos
+        Usuario newUser = new Usuario();
+        newUser.setEmail(createUserDto.email());
+        // Codifica a senha do usuário com o algoritmo bcrypt
+        newUser.setSenha(securityConfiguration.passwordEncoder().encode(createUserDto.senha()));
+        // Atribui ao usuário uma permissão específica
+        Role role = new Role();
+
+        role.setName(createUserDto.role());
+        newUser.setRoles(List.of(role));
+
+
+        // Salva o novo usuário no banco de dados
+        userRepository.save(newUser);
     }
 }

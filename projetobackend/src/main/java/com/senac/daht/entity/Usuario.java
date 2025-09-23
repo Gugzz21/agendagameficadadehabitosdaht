@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -17,7 +18,7 @@ public class Usuario {
     @Column(name = "usuario_nome")
     private String nome;
 
-    @Column(name = "usuario_email")
+    @Column(name = "usuario_email", unique = true)
     private String email;
     @Column(name = "usuario_telefone")
     private String telefone;
@@ -30,6 +31,21 @@ public class Usuario {
 
     @Column(name = "usuario_status")
     private int status;
+
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private List<Role> roles;
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     public Integer getId() {
         return id;
