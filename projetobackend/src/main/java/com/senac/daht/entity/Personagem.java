@@ -20,11 +20,11 @@ public class Personagem {
     @Column(name = "personagem_xp")
     private Double xp;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "registroouro_id", referencedColumnName = "registroouro_id", nullable = false)
     private RegistroOuro registroOuro;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "registroxp_id", referencedColumnName = "registroxp_id", nullable = false)
     private RegistroXp registroXp;
 

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface PersonagemRepository extends JpaRepository<Personagem, Integer> {
-    @Query("SELECT p FROM Personagem p WHERE p.id IN (SELECT MIN(p2.id) FROM Personagem p2 GROUP BY p2.usuario.id)")
+    @Query("SELECT p FROM Personagem p WHERE p.id > 0")
     @Lock(LockModeType.NONE)
     List<Personagem> listarTodosPersonagens();
 
